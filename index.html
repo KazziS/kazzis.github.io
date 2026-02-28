@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passang Kazi Sherpa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #020617;
+            color: #f8fafc;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        /* --- Name Alignment Logic --- */
+        .hero-name {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0 15px;
+        }
+
+        /* --- Dev Mode & CRT Effect --- */
+        body.dev-mode {
+            background: #050505;
+            font-family: 'Fira Code', monospace;
+        }
+        body.dev-mode::before {
+            content: " ";
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 9999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+        body.dev-mode .glass {
+            border-radius: 0;
+            border: 1px solid #0f0;
+            background: rgba(0, 40, 0, 0.1);
+        }
+
+        /* --- Project Card Hover --- */
+        .project-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255,255,255,0.06);
+            border-color: var(--primary);
+        }
+
+        /* --- Terminal Logic --- */
+        #terminal {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            #terminal {
+                width: 100% !important;
+                left: 0 !important;
+                bottom: 0 !important;
+                border-radius: 20px 20px 0 0 !important;
+                height: 150px !important;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[120px] z-[-1]"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[120px] z-[-1]"></div>
+
+    <div class="fixed top-6 right-6 z-[100] flex items-center gap-3 glass px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+        <span class="text-slate-400">Standard</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="modeToggle" class="sr-only peer" onchange="toggleMode()">
+            <div class="w-10 h-5 bg-gray-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
+        </label>
+        <span class="text-green-500">Root</span>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 p-6">
+        <div class="max-w-6xl mx-auto glass px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-extrabold tracking-tighter">passang<span class="text-indigo-500">_</span></div>
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
+                <a href="#about" class="hover:text-indigo-400 transition">About</a>
+                <a href="#projects" class="hover:text-indigo-400 transition">Work</a>
+                <a href="#contact" class="hover:text-indigo-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 pt-40">
+        
+        <section class="text-center mb-40">
+            <div class="hero-name text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tighter">
+                <span>Passang Kazi</span> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Sherpa</span>
+            </div>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed mb-10">
+                Infrastructure & Cloud Engineer. I build high availability IT Systems, automate complex cloud meshes, and secure IT Enterprise Networks.
+            </p>
+            
+            <div class="glass p-2 max-w-md mx-auto flex flex-col items-center gap-2 overflow-hidden">
+                <form id="cv-form" action="https://formspree.io/f/movdaenv" method="POST" class="flex w-full">
+                    <input type="email" name="email" placeholder="Your email" required class="bg-transparent px-4 py-3 flex-grow focus:outline-none text-sm">
+                    <button type="submit" id="cv-btn" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-xl font-bold text-sm transition-all">Get my CV</button>
+                </form>
+                <p id="cv-status" class="text-xs font-bold text-green-500 hidden py-1">✓ Request sent successfully!</p>
+            </div>
+        </section>
+
+        <section id="about" class="mb-32 scroll-mt-32">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="glass p-8 md:p-12">
+                    <h2 class="text-3xl font-bold mb-6">About Me</h2>
+                    <p class="text-slate-400 leading-relaxed mb-4">
+                        Passionate about technology, security, and innovation. With years of hands on experience across Linux systems, VoIP, and AWS Cloud, I help organizations stay connected, secure, and efficient.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed">
+                        I thrive in dynamic environments where problem-solving and creativity are key. Currently based in <span class="text-white font-bold">Kathmandu, Nepal</span>, working on global infrastructure solutions.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass p-6 text-center border-t-2 border-indigo-500">
+                        <div class="text-2xl font-bold text-white">5+</div>
+                        <div class="text-[10px] uppercase text-slate-500 font-bold">Years Experience</div>
+                    </div>
+                    <div class="glass p-6 text-center border-t-2 border-purple-500">
+                        <div class="text-2xl font-bold text-white">20+</div>
+                        <div class="text-[10px] uppercase text-slate-500 font-bold">Projects Completed</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="mb-32 scroll-mt-32">
+            <h2 class="text-3xl font-bold mb-12 flex items-center gap-4">
+                <span class="h-px w-12 bg-indigo-500"></span> Accomplishments
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-cloud-nodes text-2xl text-indigo-400"></i>
+                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2 py-1 rounded">AWS</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Global Cloud Mesh</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">Automated a multi-region VPC peering architecture across 5 global AWS regions using Terraform and Transit Gateways for sub-50ms latency.</p>
+                </div>
+
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-headset text-2xl text-purple-400"></i>
+                        <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-1 rounded">VoIP</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">ScaleVoIP Enterprise</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">Highly available VoIP cluster with automated failover handling 200+ concurrent SIP sessions for international clients.</p>
+                </div>
+
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-link text-2xl text-blue-400"></i>
+                        <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2 py-1 rounded">Networking</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Hybrid Infra with IPSec</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">Establised AWS IPSec Site-to-Site VPN to connect on prem data center in Nepal with AWS cloud Infrastructure, enabling secure and seamless 2.5Gbps data synchronization.</p>
+                </div>
+
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-file-shield text-2xl text-green-400"></i>
+                        <span class="text-[10px] bg-green-500/20 text-green-300 px-2 py-1 rounded">Dev</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Safe Convertor</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">Privacy-first document processor. All conversions happen locally. No ads, no logs, No Limits!</p>
+                    <a href="https://convertor.passang.com.np" class="text-xs font-bold text-indigo-400 underline">Visit App</a>
+                </div>
+
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-rocket text-2xl text-orange-400"></i>
+                        <span class="text-[10px] bg-orange-500/20 text-orange-300 px-2 py-1 rounded">Security</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Hardened Pipeline</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">DevSecOps integration in Jenkins/GitHub Actions, performing automated container scanning and dependency audits before deployment.</p>
+                </div>
+
+                <div class="glass p-8 project-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <i class="fa-solid fa-table-tennis-paddle-ball text-2xl text-pink-400"></i>
+                        <span class="text-[10px] bg-pink-500/20 text-pink-300 px-2 py-1 rounded">Hobby</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">TT Leaderboard</h3>
+                    <p class="text-slate-400 text-sm mb-6 leading-relaxed">A ranking dashboard for competitive Table Tennis players, featuring ELO rating calculations and real-time updates.</p>
+                    <a href="https://challenge.passang.com.np" class="text-xs font-bold text-pink-400 underline">Live Demo</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="mb-40 scroll-mt-32 text-center">
+            <h2 class="text-4xl font-extrabold mb-6">Let's connect.</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="mailto:connect@passang.com.np" class="glass px-8 py-4 hover:border-indigo-500 transition font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i> connect@passang.com.np
+                </a>
+                <div class="glass px-8 py-4 font-bold flex items-center gap-2 text-slate-400">
+                    <i class="fa-solid fa-location-dot"></i> Kathmandu, Nepal
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="terminal" class="fixed bottom-6 right-6 w-96 h-64 bg-black/95 border-2 border-green-500/30 font-mono text-[11px] text-green-400 hidden z-[1000] overflow-hidden flex-col shadow-[0_0_50px_rgba(0,255,0,0.1)]">
+        <div class="bg-green-500/10 p-2 flex justify-between border-b border-green-500/30">
+            <span>TERMINAL_SESSION: passang@infra</span>
+            <span class="animate-pulse">● LIVE</span>
+        </div>
+        <div class="p-4 overflow-y-auto flex-grow" id="term-content">
+            <p>> initializing system_check...</p>
+            <p>> cloud_status: <span class="text-white">OPTIMIZED</span></p>
+            <p>> security_layer: <span class="text-white">ENCRYPTED</span></p>
+            <p>> ping passang.com.np... 12ms</p>
+            <p>> root access granted.</p>
+            <p class="mt-4">> <span class="bg-green-500 text-black px-1">READY</span> _</p>
+        </div>
+    </div>
+
+    <footer class="text-center py-10 text-slate-600 text-[10px] uppercase tracking-widest border-t border-slate-900">
+        &copy; 2026 Passang Kazi Sherpa // Secure Infrastructure Architect
+    </footer>
+
+    <script>
+        function toggleMode() {
+            const body = document.body;
+            const terminal = document.getElementById('terminal');
+            body.classList.toggle('dev-mode');
+            terminal.style.display = body.classList.contains('dev-mode') ? 'flex' : 'none';
+        }
+
+        // Silent Form Submission
+        const form = document.getElementById('cv-form');
+        const status = document.getElementById('cv-status');
+        const btn = document.getElementById('cv-btn');
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            btn.disabled = true;
+            btn.innerText = "Sending...";
+            
+            const data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    status.classList.remove("hidden");
+                    btn.innerText = "Sent";
+                    form.reset();
+                } else {
+                    btn.innerText = "Error";
+                    btn.disabled = false;
+                }
+            }).catch(error => {
+                btn.innerText = "Error";
+                btn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
